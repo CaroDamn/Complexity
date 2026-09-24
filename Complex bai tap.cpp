@@ -132,7 +132,62 @@ int kadane1(int a[], int n){
     cout << bien.bd << " " << bien.kt << '\n';
     return gloMax;
 }
+int maje(int a[], int n){
+    unordered_map <int, int> t;
+    for (int i = 0; i < n; ++i){
+        if (t.find(a[i]) == t.end()){
+            t[a[i]] = 1;
+        }else{
+            ++t[a[i]];
+        }
+    }
+    for (pair<int, int> b: t){
+        if (b.second >= n / 2){
+            return b.first;
+        }
+    }
+    return -1;
+}
+int maje1(int a[], int n){
+    int candi = 0;
+    int count = 0;
+    for (int i = 0; i < n; ++i){
+        if (count == 0){
+            candi = a[i];
+            count = 1;
+        }else if (candi != a[i]){
+            --count;
+        }else{
+            ++count;
+        }
+    }
+    return candi;
+}
+int MinK(int a[], int n, int k){
+    unordered_map<int, int> t;
+    unordered_map<int, int> m;
+    int count = 0;
+    for(int i = 0; i < n; ++i){
+        t[a[i]] = i;
+        if (m.find(a[i]) == m.end()){
+            m[a[i]] = 1;
+        }else{
+            ++m[a[i]];
+        }
+    }
+    for (pair <int, int> it : m){
+        cout << it.first << " " << it.second << endl;
+    }
+    
+    for (int i = 0; i < n; ++i){
+        if (m.find(abs(k - a[i])) != m.end() && i != t[abs(k - a[i])]  ){
+            cout << m[a[i]] * m[k - a[i]] << endl;
+            count += m[a[i]] * m[k - a[i]];
+        }
+    return count;
+}
+}
 int main() {
-  int a[] = {-21, -5, -9, -10, 1, 5, 6, 7, -2, -3, -4};
-  cout<< kadane1(a, 11);
+  int a[] = {1,1,3,4,5,3};
+  cout<< MinK(a, 6, 2);
 }
